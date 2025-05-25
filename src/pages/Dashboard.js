@@ -22,6 +22,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import axios from 'axios';
+import config from '../config/config';
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
