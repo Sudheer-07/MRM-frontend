@@ -37,7 +37,7 @@ const Dashboard = () => {
   const fetchMetrics = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/assets/metrics', {
+      const response = await axios.get(`${config.API_URL}/assets/metrics`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('Metrics response:', response.data);

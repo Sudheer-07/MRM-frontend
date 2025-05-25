@@ -24,6 +24,7 @@ import {
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import axios from 'axios';
+import config from '../config/config';
 
 const statusOptions = [
   'pending',
@@ -67,7 +68,7 @@ const Assignments = () => {
   const fetchAssignments = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/assignments', {
+      const response = await axios.get(`${config.API_URL}/assignments`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAssignments(response.data.data);
@@ -79,7 +80,7 @@ const Assignments = () => {
   const fetchAssets = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/assets', {
+      const response = await axios.get(`${config.API_URL}/assets`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAssets(response.data.data);
@@ -91,7 +92,7 @@ const Assignments = () => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/users', {
+      const response = await axios.get(`${config.API_URL}/users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUsers(response.data.data);
@@ -159,13 +160,13 @@ const Assignments = () => {
 
       if (selectedAssignment) {
         await axios.patch(
-          `http://localhost:5000/api/assignments/${selectedAssignment._id}/status`,
+          `${config.API_URL}/assignments/${selectedAssignment._id}/status`,
           { status: formData.status },
           { headers: { Authorization: `Bearer ${token}` } }
         );
       } else {
         const response = await axios.post(
-          'http://localhost:5000/api/assignments',
+          `${config.API_URL}/assignments`,
           data,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -184,7 +185,7 @@ const Assignments = () => {
     if (window.confirm('Are you sure you want to delete this assignment?')) {
       try {
         const token = localStorage.getItem('token');
-        await axios.delete(`http://localhost:5000/api/assignments/${id}`, {
+        await axios.delete(`${config.API_URL}/assignments/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         fetchAssignments();

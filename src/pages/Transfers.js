@@ -24,6 +24,7 @@ import {
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
 import axios from 'axios';
+import config from '../config/config';
 
 const statusOptions = [
   'pending',
@@ -86,7 +87,7 @@ const Transfers = () => {
   const fetchTransfers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/transfers', {
+      const response = await axios.get(`${config.API_URL}/transfers`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setTransfers(response.data.data);
@@ -98,7 +99,7 @@ const Transfers = () => {
   const fetchAssets = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/assets', {
+      const response = await axios.get(`${config.API_URL}/assets`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAssets(response.data.data);
@@ -221,13 +222,13 @@ const Transfers = () => {
 
       if (selectedTransfer) {
         await axios.patch(
-          `http://localhost:5000/api/transfers/${selectedTransfer._id}/status`,
+          `${config.API_URL}/transfers/${selectedTransfer._id}/status`,
           { status: formData.status },
           { headers: { Authorization: `Bearer ${token}` } }
         );
       } else {
         const response = await axios.post(
-          'http://localhost:5000/api/transfers',
+          `${config.API_URL}/transfers`,
           data,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -246,7 +247,7 @@ const Transfers = () => {
     if (window.confirm('Are you sure you want to delete this transfer?')) {
       try {
         const token = localStorage.getItem('token');
-        await axios.delete(`http://localhost:5000/api/transfers/${id}`, {
+        await axios.delete(`${config.API_URL}/transfers/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         fetchTransfers();
