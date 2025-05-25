@@ -25,6 +25,7 @@ import {
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import axios from 'axios';
+import config from '../config/config';
 
 const assetTypes = [
   { value: 'WEAPON', label: 'Weapon' },
@@ -99,7 +100,7 @@ const Assets = () => {
         throw new Error('No authentication token found');
       }
 
-      const response = await axios.get('http://localhost:5000/api/assets', {
+      const response = await axios.get(`${config.API_URL}/assets`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('Assets response:', response.data); // Debug log
@@ -176,13 +177,13 @@ const Assets = () => {
       const token = localStorage.getItem('token');
       if (selectedAsset) {
         await axios.patch(
-          `http://localhost:5000/api/assets/${selectedAsset._id}`,
+          `${config.API_URL}/assets/${selectedAsset._id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
       } else {
         await axios.post(
-          'http://localhost:5000/api/assets',
+          `${config.API_URL}/assets`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -198,7 +199,7 @@ const Assets = () => {
     if (window.confirm('Are you sure you want to delete this asset?')) {
       try {
         const token = localStorage.getItem('token');
-        await axios.delete(`http://localhost:5000/api/assets/${id}`, {
+        await axios.delete(`${config.API_URL}/assets/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         fetchAssets();
